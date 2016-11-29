@@ -19,3 +19,16 @@ function CS4300_MDP_driver()
 %
 
 % Place loop and such here
+
+
+% Actions
+% 1 = UP
+% 2 = LEFT
+% 3 = Down
+% 4 = RIGHT
+
+S = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+A = [1, 2, 3, 4];
+
+
+
