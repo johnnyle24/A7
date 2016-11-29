@@ -258,15 +258,5 @@ P(15,4).probs = [0, 0, 0, 0,...
                 0, 0, 0, 0,...
                 0, 0, .1, 0,...
                 0, 0, .1, .8];
-
-gammaArr = [0.9, 0.99, .999, .9999, .99999, .999999];
-      
-eta = 0.01;
-max_iter = 1000;
-
-for g = 1:6
-   gamma = gammaArr(g); 
-   [U,U_trace] = CS4300_MDP_value_iteration(S,A,P,R,gamma,eta,max_iter);
-end
-
-
+            
+[U,U_trace] = CS4300_MDP_value_iteration(S,
