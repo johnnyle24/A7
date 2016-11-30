@@ -1,4 +1,4 @@
-function policy = CS4300_MDP_policy(S,A,P,U)
+function [policy,utils] = CS4300_MDP_policy2(S,A,P,U)
 % CS4300_MDP_policy - generate a policy from utilities
 % See p. 648 Russell & Norvig
 % On input:
@@ -25,6 +25,7 @@ function policy = CS4300_MDP_policy(S,A,P,U)
 % 4 = RIGHT
 
 policy = zeros(1,16);
+utils = zeros(1,16);
 
 for s = 1:16
     above = CS4300_move(s,1);
@@ -32,6 +33,7 @@ for s = 1:16
     down = CS4300_move(s,3);
     right = CS4300_move(s,4);
     actions = zeros(1,4);
+    
 
     %corner cases
     if(s == 1 || s == 4 || s == 13 || s == 16) 
@@ -102,8 +104,21 @@ for s = 1:16
         actions(4) = P(s,4).probs(above) * U(above) + P(s,4).probs(right) * U(right) + P(s,4).probs(down) * U(down);
     end
 
+    t = 0;
+    maxt = max(actions);
+    if(maxt == actions(1))
+        t = 1;
+    end
+    if(maxt == actions(2))
+        t = 2;
+    end
+    if(maxt == actions(3))
+        t = 3;
+    end
+    if(maxt == actions(4))
+        t = 4;
+    end
     
-
-
-    policy(s) = max(actions);
+    policy(s) = t;
+    utils(s) = maxt;
 end

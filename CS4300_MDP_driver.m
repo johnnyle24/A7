@@ -44,10 +44,10 @@ A = [1, 2, 3, 4];
 %     -0.04, -0.04, -1, -1;...
 %     -0.04, -0.04, -0.04, 1;];
 
-R = [-1, -1, -1, -1;...
-    -1, -1, -1000, -1;...
-    -1, -1, -1000, -1;...
-    -1, -1, -1, 1000;];
+R = [-1, -1, -1, -1,...
+    -1, -1, -1000, -1,...
+    -1, -1, -1000, -1,...
+    -1, -1, -1, 1000];
 
 U = [981, 980, 960, 950,...
     982, 981, -1000, 732,...
@@ -329,14 +329,24 @@ P(16,4).probs = [0, 0, 0, 0,...
 gammaArr = [0.9, 0.99, .999, .9999, .99999, .999999];
       
 eta = 0.1;
-max_iter = 100;
+max_iter = 1000;
 
 
-%policies = CS4300_MDP_policy(S,A,P,U);
-
+%A7
+utils = [];
 for g = 1:6
    gamma = gammaArr(g); 
    [U,U_trace] = CS4300_MDP_value_iteration(S,A,P,R,gamma,eta,max_iter);
+   utils = [utils;U];
 end
+
+%A8
+utils = [];
+for g = 1:6
+   gamma = gammaArr(g); 
+   [U,U_trace] = CS4300_MDP_policy_iteration(S,A,P,R,max_iter,gamma);
+   utils = [utils;U];
+end
+disp('Done');
 
 

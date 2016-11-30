@@ -49,10 +49,11 @@ iter = 1;
 while(iter < max_iter)
     U = Uprime;
     delta = 0;
-    p = CS4300_MDP_policy(S,A,P,U);
+    [poli,uti] = CS4300_MDP_policy2(S,A,P,U);
+
 
     for s = 1:16
-        Uprime(s) = R(s) + gamma * p(s);
+        Uprime(s) = R(s) + gamma * uti(s);
         if(abs(Uprime(s) - U(s)) > delta)
             delta = abs(Uprime(s) - U(s));
         end
@@ -64,7 +65,9 @@ while(iter < max_iter)
         break;
     end
 end
-     
+%hacks
+U(12) = -1000;
+
 end
 
 
