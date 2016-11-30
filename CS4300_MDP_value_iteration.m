@@ -40,12 +40,13 @@ eta,max_iter)
 %     Fall 2016
 %
 
-U= zeros(4);
+U = zeros(4);
 U_trace(1).U = zeros(4);
 
-while(delta > (eta*(1-gamma)/gamma))
+while(delta >= (eta*(1-gamma)/gamma))
     U_trace(1).U = U;
     delta = 0;
+    p = CS4300_MDP_policy(S,A,P,U) * 
     
     for s = 1:16
         
