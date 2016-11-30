@@ -32,7 +32,7 @@ for s = 1:16
     down = CS4300_move(s,3);
     right = CS4300_move(s,4);
     actions = zeros(1,4);
-    s
+    
 
     %corner cases
     if(s == 1 || s == 4 || s == 13 || s == 16) 

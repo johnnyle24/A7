@@ -40,21 +40,28 @@ eta,max_iter)
 %     Fall 2016
 %
 
-U = zeros(4);
-U_trace(1).U = zeros(4);
+U = zeros(1,16);
+Uprime = zeros(1,16);
+U_trace = [];
+delta = 0;
+iter = 1;
 
-while(delta >= (eta*(1-gamma)/gamma))
-    U_trace(1).U = U;
+while(delta >= (eta*(1-gamma)/gamma) && iter < max_iter)
+    Uprime = U;
     delta = 0;
-    p = CS4300_MDP_policy(S,A,P,U) * 
+
     
     for s = 1:16
+        p = CS4300_MDP_policy(S,A,P,U);
+
+        Uprime(s) = R(s) + gamma * p(s);
         
-        
+        if(abs(Uprime(s) - U(s)) > delta)
+            delta = abs(Uprime(s) - U(s));
+        end
     end
-    
-    
-    
+    U_trace = [U_trace:U];
+    iter = iter + 1;
 end
     
     
