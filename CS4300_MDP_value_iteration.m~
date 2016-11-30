@@ -46,22 +46,23 @@ U_trace = [];
 delta = 0;
 iter = 1;
 
-while(delta >= (eta*(1-gamma)/gamma) && iter < max_iter)
-    Uprime = U;
+while(iter < max_iter)
+    U = Uprime;
     delta = 0;
+    p = CS4300_MDP_policy(S,A,P,U);
 
-    
     for s = 1:16
-        p = CS4300_MDP_policy(S,A,P,U);
-
         Uprime(s) = R(s) + gamma * p(s);
-        
         if(abs(Uprime(s) - U(s)) > delta)
             delta = abs(Uprime(s) - U(s));
         end
     end
-    U_trace = [U_trace:U];
+    U_trace = [U_trace;U];
     iter = iter + 1;
+    
+    if(delta < (eta * (1-gamma) / gamma))
+        break;
+    end
 end
     
     
