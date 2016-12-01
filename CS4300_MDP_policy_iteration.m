@@ -55,18 +55,31 @@ delta = 0;
 iter = 1;
 unchanged = true;
 
-while(unchanged) 
+while(iter < k) 
     U = CS4300_MDP_policy_evaluation(S,A,P,R,policy,U);
     unchanged = true;
     
+    [P1,U1] = CS4300_MDP_policy2(S,A,P,U);
+    
+    
     for s = 1:16
-       p = CS4300_MDP_policy(S,A,P,U);
-       
+       if(U1(s) > U(s))
+            % A = A(s)?
+            policy(s) = P1(s);
+            % A = A(s)?
+            unchanged = false;
+       end
     end
     
+    Ut = [Ut; U];
     
+    if(unchanged)
+       % return pi?
+       return; 
+    end
     
 end
+
 
 % while(iter < max_iter)
 %     U = Uprime;
@@ -88,4 +101,31 @@ end
 %     end
 % end
      
+end
+
+U = zeros(1, 16);
+Ut = [];
+changed = true;
+pi = zeros(1, 16);
+for i=1:16
+   r = floor(rand(1) * 4) +1;
+   pi(i) = r;
+end
+
+while changed
+     changed = false;
+     %[policy, max] = CS4300_MDP_policy(S,A,P, U);
+     U = CS4300_policy_eval(pi, U, P, S, R, k, gamma);
+     
+     for s=1:16
+        probs = CS4300_state_probs(s, P, U);
+        [m, a] = max(probs);
+        if (m > U(s) && a ~= pi(s))
+            pi(s) = a;
+            changed = true;
+        end
+     end
+     Ut = [Ut; U];
+end
+
 end

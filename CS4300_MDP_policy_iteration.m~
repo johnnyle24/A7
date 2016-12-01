@@ -46,18 +46,43 @@ function [policy,U,Ut] = CS4300_MDP_policy_iteration(S,A,P,R,k,gamma)
 % Fall 2016
 
 U = zeros(1,16);
-policy = rand(1,16);
+policy = zeros(1,16);
+for i = 1:16
+   policy(i) = randi([1,4]); 
+end
 Ut = [];
 delta = 0;
 iter = 1;
-unchanged = false;
+unchanged = true;
 
-while(unchanged) 
+while(iter < k) 
+    U = CS4300_MDP_policy_evaluation(S,A,P,R,policy,U);
+    unchanged = true;
+    
+    [P1,U1] = CS4300_MDP_policy2(S,A,P,U);
     
     
+    for s = 1:16
+       %p = CS4300_MDP_policy(S,A,P,U);
+       action = policy(s);
+       %res = CS4300_MDP_policy3(S,A,P,U,action);
+       if(U1(s) > U(s))
+            % A = A(s)?
+            policy(s) = P1(s);
+            % A = A(s)?
+            unchanged = false;
+       end
+    end
     
+    Ut = [Ut;
+    
+    if(unchanged)
+       % return pi?
+       return; 
+    end
     
 end
+
 
 % while(iter < max_iter)
 %     U = Uprime;
