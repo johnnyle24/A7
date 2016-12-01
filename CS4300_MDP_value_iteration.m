@@ -1,4 +1,4 @@
-function [U,U_trace] = CS4300_MDP_value_iteration(S,A,P,R,gamma,...
+function [poli,U,U_trace] = CS4300_MDP_value_iteration(S,A,P,R,gamma,...
 eta,max_iter)
 % CS4300_MDP_value_iteration - compute policy using value iteration
 % On input:
@@ -65,8 +65,6 @@ while(iter < max_iter)
         break;
     end
 end
-%hacks
-U(12) = -1000;
 
 end
 

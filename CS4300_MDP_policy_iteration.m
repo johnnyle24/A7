@@ -45,80 +45,21 @@ function [policy,U,Ut] = CS4300_MDP_policy_iteration(S,A,P,R,k,gamma)
 % UU
 % Fall 2016
 
-U = zeros(1,16);
-policy = zeros(1,16);
-for i = 1:16
-   policy(i) = randi([1,4]); 
-end
-Ut = [];
-delta = 0;
-iter = 1;
-unchanged = true;
-
-while(iter < k) 
-    U = CS4300_MDP_policy_evaluation(S,A,P,R,policy,U);
-    unchanged = true;
-    
-    [P1,U1] = CS4300_MDP_policy2(S,A,P,U);
-    
-    
-    for s = 1:16
-       if(U1(s) > U(s))
-            % A = A(s)?
-            policy(s) = P1(s);
-            % A = A(s)?
-            unchanged = false;
-       end
-    end
-    
-    Ut = [Ut; U];
-    
-    if(unchanged)
-       % return pi?
-       return; 
-    end
-    
-end
-
-
-% while(iter < max_iter)
-%     U = Uprime;
-%     delta = 0;
-%     p = CS4300_MDP_policy(S,A,P,U);
-% 
-% 
-%     for s = 1:16
-%         Uprime(s) = R(s) + gamma * p(s);
-%         if(abs(Uprime(s) - U(s)) > delta)
-%             delta = abs(Uprime(s) - U(s));
-%         end
-%     end
-%     U_trace = [U_trace;U];
-%     iter = iter + 1;
-%     
-%     if(delta < (eta * (1-gamma) / gamma))
-%         break;
-%     end
-% end
-     
-end
-
 U = zeros(1, 16);
 Ut = [];
 changed = true;
 pi = zeros(1, 16);
 for i=1:16
-   r = floor(rand(1) * 4) +1;
+   r = randi([1,4]);
    pi(i) = r;
 end
 
 while changed
      changed = false;
-     %[policy, max] = CS4300_MDP_policy(S,A,P, U);
-     U = CS4300_policy_eval(pi, U, P, S, R, k, gamma);
+     U = CS4300_MDP_policy_evaluation(pi, U, P, S, R, k, gamma);
      
-     for s=1:16
-        probs = CS4300_state_probs(s, P, U);
+     for s = 1:16
+        probs = CS4300_MDP_get_actions(s, P, U);
         [m, a] = max(probs);
         if (m > U(s) && a ~= pi(s))
             pi(s) = a;
@@ -128,4 +69,4 @@ while changed
      Ut = [Ut; U];
 end
 
-end
+policy = pi;

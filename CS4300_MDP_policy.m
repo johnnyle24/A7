@@ -39,7 +39,6 @@ for s = 1:16
         if(s == 1)
             %Action up 1
             actions(1) = P(s,1).probs(above) * U(above) + P(s,1).probs(left) * U(left) + P(s,1).probs(right) * U(right);
-
             %Action left 2
             actions(2) = P(s,2).probs(above) * U(above) + P(s,2).probs(down) * U(down);
 
